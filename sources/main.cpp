@@ -5,7 +5,7 @@
 
 
 int main() {
-  sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+  sf::RenderWindow window(sf::VideoMode(640, 480), "Game", sf::Style::Titlebar | sf::Style::Close);
   window.setPosition(sf::Vector2i(500, 300));
   window.setVerticalSyncEnabled(true);
   //window.setActive(true);
