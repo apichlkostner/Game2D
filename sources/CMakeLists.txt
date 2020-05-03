@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # add the executable
-add_executable(game main.cpp)
+add_executable(game main.cpp game.cpp)
 
 # SFML >= 2.5 uses config of package, if not found: set SFML_DIR
 # SFML <  2.5 has a find script, e.g. in /usr/share/SFML/cmake/Modules/FindSFML.cmake
