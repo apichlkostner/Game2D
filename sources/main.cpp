@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "game.h"
+#include "player.h"
 #include "project_headers.h"
 
 int main() {
@@ -10,7 +11,8 @@ int main() {
   window->setVerticalSyncEnabled(true);
   window->setMouseCursorVisible(false);
 
-  auto player = std::make_unique<sf::CircleShape>(10);
+  auto player = std::make_unique<mygame::Player>();
+  player->setRadius(10);
   player->setOutlineColor(sf::Color::Red);
   player->setOutlineThickness(1.f);
 

@@ -9,7 +9,7 @@
 
 namespace mygame {
 
-game::game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<sf::Shape> player)
+game::game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<Player> player)
     : window_(std::move(window)),
       player_(std::move(player)),
       player_position{20, 20},
@@ -54,17 +54,7 @@ void game::events() {
         break;
 
       case sf::Event::MouseMoved:
-        player_position = {event.mouseMove.x, event.mouseMove.y};
-
-        if (player_size_ > 1.05)
-          player_size_factor_ = -0.005;
-        else if (player_size_ < 0.95)
-          player_size_factor_ = 0.005;
-
-        player_size_ += player_size_factor_;
-
-        player_->setPosition(player_position);
-        player_->setScale({player_size_, player_size_});
+        player_->updatePosition(window_->mapPixelToCoords({event.mouseMove.x, event.mouseMove.y}));
 
       default:
         break;
