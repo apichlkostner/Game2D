@@ -1,8 +1,5 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
+#include "project_headers.h"
 #include <iostream>
-
-
 
 int main() {
   sf::RenderWindow window(sf::VideoMode(640, 480), "Game", sf::Style::Titlebar | sf::Style::Close);

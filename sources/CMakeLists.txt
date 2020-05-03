@@ -12,6 +12,7 @@ target_link_libraries(game  PUBLIC sfml-graphics
                             PUBLIC sfml-window
                             PUBLIC sfml-system)
 
+target_precompile_headers(game PRIVATE project_headers.h)
 
 target_include_directories(game PUBLIC
                            "${PROJECT_BINARY_DIR}"
