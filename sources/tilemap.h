@@ -1,6 +1,7 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
+#include "config.h"
 #include "project_headers.h"
 
 namespace mygame {
@@ -9,7 +10,8 @@ enum TileTypes { tile_type_grass, tile_type_water, tile_type_tree, tile_type_roc
 
 class tilemap : public sf::Drawable, public sf::Transformable {
  public:
-  bool load(const std::string& path, sf::Vector2u tileSize, const std::vector<uint8_t> map, sf::Vector2u mapSizeTiles);
+  bool load(const std::string& path, sf::Vector2u tileSize, const std::vector<tiletype_t> map,
+            sf::Vector2u mapSizeTiles);
   void update();
   void destroyTerrain(sf::Vector2f pos);
   bool isAccessable(sf::Vector2f pos);
@@ -17,7 +19,7 @@ class tilemap : public sf::Drawable, public sf::Transformable {
  private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-  std::vector<uint8_t> map_;
+  std::vector<tiletype_t> map_;
   sf::VertexArray vertices_;
   sf::Texture tileset_;
   sf::Vector2f map_size_pixel_;

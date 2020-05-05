@@ -6,7 +6,7 @@
 
 namespace mygame {
 
-bool tilemap::load(const std::string& path, sf::Vector2u tile_size, const std::vector<uint8_t> map,
+bool tilemap::load(const std::string& path, sf::Vector2u tile_size, const std::vector<tiletype_t> map,
                    sf::Vector2u mapSizeTiles) {
   if (!tileset_.loadFromFile(path)) return false;
 

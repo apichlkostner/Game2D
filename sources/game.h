@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <memory>
+
 #include "player.h"
 #include "project_headers.h"
 
@@ -11,13 +12,13 @@ class tilemap;
 
 class game {
  public:
-  game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<Player> player);
+  game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<Player> player, std::unique_ptr<tilemap> tiles_map);
   ~game();
-  
+
   void events();
   void update(sf::Time deltaTime);
   void render();
-  
+
   bool isRunning();
 
  private:
