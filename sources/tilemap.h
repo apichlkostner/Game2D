@@ -9,8 +9,7 @@ enum TileTypes { tile_type_grass, tile_type_water, tile_type_tree, tile_type_roc
 
 class tilemap : public sf::Drawable, public sf::Transformable {
  public:
-  bool load(const std::string& path, sf::Vector2u tileSize, const std::vector<uint8_t> map, uint32_t width,
-            uint32_t height);
+  bool load(const std::string& path, sf::Vector2u tileSize, const std::vector<uint8_t> map, sf::Vector2u mapSizeTiles);
   bool isAccessable(sf::Vector2f pos);
 
  private:

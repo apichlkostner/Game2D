@@ -22,7 +22,7 @@ game::game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<Player> pla
   assert(player_);
   assert(map_);
 
-  const std::vector<uint8_t> level {
+  const std::vector<uint8_t> level{
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 2, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0, 2, 3, 3, 0, 0, 0, 0, 0, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 2, 2, 0, 0, 2, 2, 2, 2, 0, 0, 0, 2, 3, 0, 0,
@@ -47,7 +47,7 @@ game::game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<Player> pla
       0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   };
 
-  if (!map_->load(TILESET_MAP, sf::Vector2u(32, 32), std::move(level), 32, 26)) {
+  if (!map_->load(TILESET_MAP, sf::Vector2u(32, 32), std::move(level), {32, 26})) {
     std::cout << "Couldn't load tileset " + TILESET_MAP << std::endl;
   }
 }
@@ -76,7 +76,7 @@ void game::update(sf::Time deltaTime) {
     if ((p_x != 0.) || (p_y != 0.)) {
       auto current_pos = player_->getPosition();
       constexpr float max_axis_pos = 100.;
-      constexpr float max_speed = 200.;
+      constexpr float max_speed = 300.;
       const float max_distance = max_speed * deltaTime.asSeconds() / max_axis_pos;
 
       sf::Vector2f new_pos{current_pos.x + p_x * max_distance, current_pos.y + p_y * max_distance};
@@ -106,9 +106,14 @@ void game::events() {
         }
         break;
 
-      case sf::Event::MouseMoved:
+      case sf::Event::MouseMoved: {
         // update player position with mouse movement
-        player_->updatePosition(window_->mapPixelToCoords({event.mouseMove.x, event.mouseMove.y}));
+        sf::Vector2f new_pos = window_->mapPixelToCoords({event.mouseMove.x, event.mouseMove.y});
+        if (map_->isAccessable(new_pos)) {
+          player_->updatePosition(new_pos);
+        }
+        break;
+      }
 
       default:
         break;

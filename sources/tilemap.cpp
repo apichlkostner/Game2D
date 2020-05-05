@@ -7,29 +7,29 @@
 namespace mygame {
 
 bool tilemap::load(const std::string& path, sf::Vector2u tile_size, const std::vector<uint8_t> map,
-                   uint32_t map_width_quads, uint32_t map_height_quads) {
+                   sf::Vector2u mapSizeTiles) {
   if (!tileset_.loadFromFile(path)) return false;
 
   // save map size for collision check
-  map_size_pixel_ = {static_cast<float>(tile_size.x * map_width_quads),
-                     static_cast<float>(tile_size.y * map_height_quads)};
-  map_size_tiles_ = {map_width_quads, map_height_quads};
+  map_size_pixel_ = {static_cast<float>(tile_size.x * mapSizeTiles.x),
+                     static_cast<float>(tile_size.y * mapSizeTiles.y)};
+  map_size_tiles_ = mapSizeTiles;
   tile_size_ = tile_size;
   map_ = std::move(map);
 
   vertices_.setPrimitiveType(sf::Quads);
-  vertices_.resize(map_width_quads * map_height_quads * 4);
+  vertices_.resize(mapSizeTiles.x * mapSizeTiles.y * 4);
 
-  for (unsigned int i = 0; i < map_width_quads; ++i)
-    for (unsigned int j = 0; j < map_height_quads; ++j) {
-      int tileNumber = map_[i + j * map_width_quads];
+  for (uint32_t i = 0; i < mapSizeTiles.x; ++i)
+    for (uint32_t j = 0; j < mapSizeTiles.y; ++j) {
+      uint32_t tileNumber = map_[i + j * mapSizeTiles.x];
 
       // position of texture
-      int tu = tileNumber % (tileset_.getSize().x / tile_size.x);
-      int tv = tileNumber / (tileset_.getSize().x / tile_size.x);
+      uint32_t tu = tileNumber % (tileset_.getSize().x / tile_size.x);
+      uint32_t tv = tileNumber / (tileset_.getSize().x / tile_size.x);
 
       // postiion of current quad
-      sf::Vertex* quad = &vertices_[(i + j * map_width_quads) * 4];
+      sf::Vertex* quad = &vertices_[(i + j * mapSizeTiles.x) * 4];
 
       // quad position
       quad[0].position = sf::Vector2f(i * tile_size.x, j * tile_size.y);
@@ -55,12 +55,15 @@ bool tilemap::isAccessable(sf::Vector2f pos) {
 
   if (isInsideWindow) {
     // check for collision with surrounding tiles
+    uint32_t map_x = pos.x / tile_size_.x;
+    uint32_t map_y = pos.y / tile_size_.y;
+
     for (uint32_t delta_x = 0; delta_x <= 1; delta_x++) {
       for (uint32_t delta_y = 0; delta_y <= 1; delta_y++) {
-        uint32_t map_u = (pos.x + delta_x * tile_size_.x) / tile_size_.x;
-        uint32_t map_v = (pos.y + delta_y * tile_size_.y) / tile_size_.y;
+        uint32_t map_x_with_offset = map_x + delta_x;
+        uint32_t map_y_with_offset = map_y + delta_y;
 
-        uint32_t pos_in_map = map_u + map_v * map_size_tiles_.x;
+        uint32_t pos_in_map = map_x_with_offset + (map_y_with_offset * map_size_tiles_.x);
         assert(pos_in_map < map_.size());
         auto tile_type = map_[pos_in_map];
 
