@@ -106,6 +106,15 @@ void game::events() {
         }
         break;
 
+      case sf::Event::JoystickButtonPressed:
+      if (event.joystickButton.button == 0) {
+        auto pos = player_->getPosition();
+        pos.x += 32 + 1;
+        pos.x += 16;
+        map_->destroyTerrain(pos);
+      }
+      break;
+
       case sf::Event::MouseMoved: {
         // update player position with mouse movement
         sf::Vector2f new_pos = window_->mapPixelToCoords({event.mouseMove.x, event.mouseMove.y});
