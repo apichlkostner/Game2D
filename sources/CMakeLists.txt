@@ -12,10 +12,12 @@ target_link_libraries(game  PUBLIC sfml-graphics
                             PUBLIC sfml-window
                             PUBLIC sfml-system)
 
-target_precompile_headers(game PRIVATE project_headers.h)
+# removed for VSCode CMake plugin bug https://github.com/microsoft/vscode-cmake-tools/issues/1141
+#target_precompile_headers(game PRIVATE project_headers.h)
 
-target_include_directories(game PUBLIC
-                           "${PROJECT_BINARY_DIR}"
+#message(STATUS "PROJECT_SOURCE_DIR = ${PROJECT_SOURCE_DIR}/include")
+target_include_directories(game PRIVATE ${PROJECT_SOURCE_DIR}/include
+                                PUBLIC "${PROJECT_BINARY_DIR}"
                            )
 
 # add the install targets
