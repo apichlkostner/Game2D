@@ -7,8 +7,8 @@
 
 int main() {
   auto window =
-      std::make_unique<sf::RenderWindow>(sf::VideoMode(1024, 1024), "Game", sf::Style::Titlebar | sf::Style::Close);
-  window->setPosition(sf::Vector2i(500, 300));
+      std::make_unique<sf::RenderWindow>(sf::VideoMode(1024, 832), "Game", sf::Style::Titlebar | sf::Style::Close);
+  window->setPosition(sf::Vector2i(500, 100));
   window->setVerticalSyncEnabled(true);
   window->setMouseCursorVisible(false);
 
