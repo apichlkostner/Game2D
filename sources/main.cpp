@@ -13,9 +13,6 @@ int main() {
   window->setMouseCursorVisible(false);
 
   auto player = std::make_unique<mygame::Player>();
-  player->setRadius(10);
-  player->setOutlineColor(sf::Color::Red);
-  player->setOutlineThickness(1.f);
 
   mygame::game g(std::move(window), std::move(player));
 

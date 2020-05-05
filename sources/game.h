@@ -7,6 +7,8 @@
 
 namespace mygame {
 
+class tilemap;
+
 class game {
  public:
   game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<Player> player);
@@ -20,6 +22,7 @@ class game {
 
  private:
   std::unique_ptr<sf::RenderWindow> window_;
+  std::unique_ptr<tilemap> map_;
   std::unique_ptr<Player> player_;
   sf::Color color_{sf::Color::Blue};
   sf::Vector2f player_position;
