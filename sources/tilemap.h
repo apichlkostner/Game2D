@@ -14,7 +14,7 @@ class tilemap : public sf::Drawable, public sf::Transformable {
             sf::Vector2u mapSizeTiles);
   void update();
   void destroyTerrain(sf::Vector2f pos);
-  bool isAccessable(sf::Vector2f pos);
+  bool isAccessable(sf::Vector2f pos) const;
 
  private:
   virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

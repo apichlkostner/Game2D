@@ -1,37 +1,29 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "project_headers.h"
 #include "config.h"
+#include "project_headers.h"
+#include "tilemap.h"
 
 namespace mygame {
 
 class Player : public sf::Sprite {
  public:
-  Player() : size_faktor_(1.0), size_faktor_delta_(0.05) {
-    if (!texture.loadFromFile(TEXTURE_FILE_PLAYER)) {
-      throw std::runtime_error("Texture file " + TEXTURE_FILE_PLAYER + " couldn't be loaded");
-    }
-    this->setTexture(texture);
-  }
+  Player(const tilemap& map);
 
-  void updatePosition(sf::Vector2f pos) {
-    setPosition(pos);
+  void update(sf::Vector2f forece, sf::Time deltaTime);
 
-    if (size_faktor_ > 1.05)
-      size_faktor_delta_ = -0.005;
-    else if (size_faktor_ < 0.95)
-      size_faktor_delta_ = 0.005;
+  void updatePosition(sf::Vector2f pos);
 
-    size_faktor_ += size_faktor_delta_;
-
-    setScale({size_faktor_, size_faktor_});
-  }
+  void accelerate(sf::Vector2f a);
 
  private:
+  float mass_;
+  sf::Vector2f velocity_;
   float size_faktor_;
   float size_faktor_delta_;
   sf::Texture texture;
+  const tilemap& map_;
 };
 
 }  // namespace mygame

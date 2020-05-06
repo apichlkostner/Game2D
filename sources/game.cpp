@@ -43,18 +43,7 @@ void game::update(sf::Time deltaTime) {
     if (std::abs(p_x) < min_axis) p_x = 0.;
     if (std::abs(p_y) < min_axis) p_y = 0.;
 
-    // change position of player
-    if ((p_x != 0.) || (p_y != 0.)) {
-      auto current_pos = player_->getPosition();
-      constexpr float max_axis_pos = 100.;
-      constexpr float max_speed = 300.;
-      const float max_distance = max_speed * deltaTime.asSeconds() / max_axis_pos;
-
-      sf::Vector2f new_pos{current_pos.x + p_x * max_distance, current_pos.y + p_y * max_distance};
-      if (map_->isAccessable(new_pos)) {
-        player_->updatePosition(new_pos);
-      }
-    }
+    player_->update({p_x, p_y}, deltaTime);
   }
 }
 
@@ -78,13 +67,13 @@ void game::events() {
         break;
 
       case sf::Event::JoystickButtonPressed:
-      if (event.joystickButton.button == 0) {
-        auto pos = player_->getPosition();
-        pos.x += 32 + 1;
-        pos.x += 16;
-        map_->destroyTerrain(pos);
-      }
-      break;
+        if (event.joystickButton.button == 0) {
+          auto pos = player_->getPosition();
+          pos.x += 32 + 1;
+          pos.x += 16;
+          map_->destroyTerrain(pos);
+        }
+        break;
 
       case sf::Event::MouseMoved: {
         // update player position with mouse movement

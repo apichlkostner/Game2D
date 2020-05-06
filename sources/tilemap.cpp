@@ -51,9 +51,8 @@ void tilemap::update() {
     }
 }
 
-bool tilemap::isAccessable(sf::Vector2f pos) {
-  bool isInsideWindow = !((pos.x < 0) || (pos.y < 0) || (pos.x > (map_size_pixel_.x - tile_size_.x)) ||
-                          (pos.y > (map_size_pixel_.y - tile_size_.y)));
+bool tilemap::isAccessable(sf::Vector2f pos) const {
+  bool isInsideWindow = !((pos.x < 0) || (pos.y < 0) || (pos.x > map_size_pixel_.x) || (pos.y > map_size_pixel_.y));
 
   bool retValue = isInsideWindow;
 
@@ -62,19 +61,12 @@ bool tilemap::isAccessable(sf::Vector2f pos) {
     uint32_t map_x = pos.x / tile_size_.x;
     uint32_t map_y = pos.y / tile_size_.y;
 
-    for (uint32_t delta_x = 0; delta_x <= 1; delta_x++) {
-      for (uint32_t delta_y = 0; delta_y <= 1; delta_y++) {
-        uint32_t map_x_with_offset = map_x + delta_x;
-        uint32_t map_y_with_offset = map_y + delta_y;
+    uint32_t pos_in_map = map_x + (map_y * map_size_tiles_.x);
+    assert(pos_in_map < map_.size());
+    auto tile_type = map_[pos_in_map];
 
-        uint32_t pos_in_map = map_x_with_offset + (map_y_with_offset * map_size_tiles_.x);
-        assert(pos_in_map < map_.size());
-        auto tile_type = map_[pos_in_map];
-
-        // accessible tile types
-        retValue &= (tile_type == tile_type_grass) || (tile_type == tile_type_sand);
-      }
-    }
+    // accessible tile types
+    retValue = (tile_type == tile_type_grass) || (tile_type == tile_type_sand);
   }
 
   return retValue;

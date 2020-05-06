@@ -22,16 +22,16 @@ int main() {
   sf::Image window_icon;
   window_icon.loadFromFile(mygame::WINDOW_ICON);
   window->setIcon(window_icon.getSize().x, window_icon.getSize().y, window_icon.getPixelsPtr());
-
-  // create player
-  auto player = std::make_unique<mygame::Player>();
-
+  
   // create map
   auto map = std::make_unique<mygame::tilemap>();
   auto tiles_map = mygame::mapconfig::MAP;
-  if (!map->load(mygame::TILESET_MAP, mygame::TILE_SIZE, std::move(tiles_map), mygame::mapconfig::MAP_SIZE)) {
-    std::cout << "Couldn't load tileset " + mygame::TILESET_MAP << std::endl;
+  if (!map->load(mygame::TILESET_MAP_FILENAME, mygame::TILE_SIZE, std::move(tiles_map), mygame::mapconfig::MAP_SIZE)) {
+    std::cout << "Couldn't load tileset " + mygame::TILESET_MAP_FILENAME << std::endl;
   }
+
+  // create player
+  auto player = std::make_unique<mygame::Player>(*map);
 
   // create game class, inject window, player and map
   mygame::game g(std::move(window), std::move(player), std::move(map));
